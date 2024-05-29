@@ -363,7 +363,7 @@ void AudioPlayer_Task(void *parameter) {
 	audio->setVolume(AudioPlayer_CurrentVolume, VOLUMECURVE);
 	audio->forceMono(gPlayProperties.currentPlayMono);
 	if (gPlayProperties.currentPlayMono) {
-		audio->setTone(3, 0, 0);
+		audio->setTone(5, 0, 3);
 	}
 
 	uint8_t currentVolume;
