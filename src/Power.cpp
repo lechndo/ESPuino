@@ -23,6 +23,7 @@ void Power_PeripheralOn(void) {
 // Switch off peripherals. Please note: meaning of POWER_OFF is LOW per default. But is HIGH in case of INVERT_POWER is enabled.
 void Power_PeripheralOff(void) {
 	Port_Write(POWER, POWER_OFF, false);
+	pinMode(POWER, PULLUP);
 #ifdef BUTTONS_LED
 	Port_Write(BUTTONS_LED, LOW, false);
 #endif
