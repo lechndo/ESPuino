@@ -4,6 +4,8 @@
 #define __ESPUINO_SETTINGS_LOLIN_D32_PRO_H__
     #include "Arduino.h"
 
+    #define BREADBOARD
+
     //######################### INFOS ####################################
     /* This is a develboard-specific config-file for *Wemos Lolin32*. Specific doesn't mean it's only working with this board.
     Lolin32 is the predecessor of Lolin D32.
@@ -34,20 +36,29 @@
 
     // RFID (via SPI)
     #define RST_PIN                         99          // Not necessary but has to be set anyway; so let's use a dummy-number
-    #define RFID_CS                         21          // GPIO for chip select (RFID)
-    #define RFID_MOSI                       13          // GPIO for master out slave in (RFID)
-    #define RFID_MISO                       15          // GPIO for master in slave out (RFID)
-    #define RFID_SCK                        14          // GPIO for clock-signal (RFID)
+    #define RFID_CS                          5          // GPIO for chip select (RFID)
+    #define RFID_MOSI                       23          // GPIO for master out slave in (RFID)
+    #define RFID_MISO                       19          // GPIO for master in slave out (RFID)
+    #define RFID_SCK                        18          // GPIO for clock-signal (RFID)
 
     #ifdef RFID_READER_TYPE_PN5180
         #define RFID_BUSY                   33          // PN5180 BUSY PIN
         #define RFID_RST                    22          // PN5180 RESET PIN
         #define RFID_IRQ                    39          // PN5180 IRQ PIN (only needed for low power card detection)
     #endif
-    // I2S (DAC)
-    #define I2S_DOUT                        25          // Digital out (I2S)
-    #define I2S_BCLK                        27          // BCLK (I2S)
-    #define I2S_LRC                         26          // LRC (I2S)
+
+    #ifdef BREADBOARD
+        // I2S (DAC)
+        #define I2S_DOUT                        13          // Digital out (I2S)
+        #define I2S_BCLK                        12          // BCLK (I2S)
+        #define I2S_LRC                         27          // LRC (I2S)
+    #else
+        // I2S (DAC)
+        #define I2S_DOUT                        27          // Digital out (I2S)
+        #define I2S_BCLK                        12          // BCLK (I2S)
+        #define I2S_LRC                         13          // LRC (I2S)
+    #endif
+
 
     // Rotary encoder
     #ifdef USEROTARY_ENABLE
@@ -61,12 +72,12 @@
     //#define GPIO_HP_EN                      113         // To enable amp for headphones (GPIO or port-channel)
 
     // Control-buttons (set to 99 to DISABLE; 0->39 for GPIO; 100->115 for port-expander)
-    #define NEXT_BUTTON                     33          // Button 0: GPIO to detect next
-    #define PREVIOUS_BUTTON                  2          // Button 1: GPIO to detect previous
-    #define PAUSEPLAY_BUTTON                36          // Button 2: GPIO to detect pause/play
-    #define ROTARYENCODER_BUTTON            32          // (set to 99 to disable; 0->39 for GPIO; 100->115 for port-expander)
-    #define BUTTON_4                        99          // Button 4: unnamed optional button
-    #define BUTTON_5                        99          // Button 5: unnamed optional button
+    #define NEXT_BUTTON                     36          // Button 0: GPIO to detect next
+    #define PREVIOUS_BUTTON                 39          // Button 1: GPIO to detect previous
+    #define PAUSEPLAY_BUTTON                32          // Button 2: GPIO to detect pause/play
+    #define ROTARYENCODER_BUTTON            99          // (set to 99 to disable; 0->39 for GPIO; 100->115 for port-expander)
+    #define BUTTON_4                        33          // Button 4: unnamed optional button
+    #define BUTTON_5                        34          // Button 5: unnamed optional button
 
     //#define BUTTONS_LED                   114         // Powers the LEDs of the buttons. Make sure the current consumed by the LEDs can be handled by the used GPIO
 
@@ -85,16 +96,17 @@
     // Wake-up button => this also is the interrupt-pin if port-expander is enabled!
     // Please note: only RTC-GPIOs (0, 4, 12, 13, 14, 15, 25, 26, 27, 32, 33, 34, 35, 36, 39, 99) can be used! Set to 99 to DISABLE.
     // Please note #2: this button can be used as interrupt-pin for port-expander. If so, all pins connected to port-expander can wake up ESPuino.
-    #define WAKEUP_BUTTON                   ROTARYENCODER_BUTTON // Defines the button that is used to wake up ESPuino from deepsleep.
+    #define WAKEUP_BUTTON                   PAUSEPLAY_BUTTON    //ROTARYENCODER_BUTTON // Defines the button that is used to wake up ESPuino from deepsleep.
 
     // (optional) Power-control
-    #define POWER                           5           // GPIO used to drive transistor-circuit, that switches off peripheral devices while ESP32-deepsleep
+    #define POWER                           25          // GPIO used to drive transistor-circuit, that switches off peripheral devices while ESP32-deepsleep
     #ifdef POWER
-        //#define INVERT_POWER                          // If enabled, use inverted logic for POWER circuit, that means peripherals are turned off by writing HIGH
+        #define INVERT_POWER                          // If enabled, use inverted logic for POWER circuit, that means peripherals are turned off by writing HIGH
     #endif
 
     // (optional) Neopixel
-    #define LED_PIN                         12          // GPIO for Neopixel-signaling
+    //#define LED_PIN                         12          // GPIO for Neopixel-signaling
+    #define LED_PIN                         22          // GPIO for Neopixel-signaling
 
     // (optinal) Headphone-detection
     #ifdef HEADPHONE_ADJUST_ENABLE
